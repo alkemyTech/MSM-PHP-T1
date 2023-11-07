@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -17,10 +19,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    // ATRIBUTOS QUE SE PUEDEN ASIGNAR EN MASA
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'password',
+        'role_id',
+        'deleted'
     ];
 
     /**
@@ -28,9 +35,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    // ATRIBUTOS OCULTOS PARA LA SERIALIZACIÓN
     protected $hidden = [
         'password',
-        'remember_token',
+        'role_id'
+    ];
+
+    protected $with = [
+        'role',
     ];
 
     /**
@@ -39,7 +52,17 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    
+    // RELACIONES DE FOREIGN KEYS
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function account(): HasMany
+    {
+        return $this->hasMany(Account::class);
+    }
+
 }
