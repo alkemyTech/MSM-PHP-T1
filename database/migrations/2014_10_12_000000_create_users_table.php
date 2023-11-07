@@ -6,19 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
-    // MIGRACION TABLA DE USUARIOS
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('Nombre');
-            $table->string('last_name')->comment('Apellido');
+            $table->string('name');
             $table->string('email')->unique();
-            $table->string('password')->comment('Contraseña');;
-            $table->foreignId('role_id')->constrained();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
-            $table->boolean('deleted')->default(false);
         });
     }
 
