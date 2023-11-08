@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('fixed_terms', function (Blueprint $table) {
             $table->id(); 
             $table->double('amount'); 
-            $table->foreign('account_id')->references('id')->on('accounts'); //vinculacion con la tabla account
+           // $table->foreign('account_id')->references('id')->on('accounts'); //vinculacion con la tabla account
             $table->double('interest');
             $table->double('total');
             $table->integer('duration');
@@ -26,10 +26,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-        });
-    }
+        
 
-    /**
+    
      * Reverse the migrations.
      */
     public function down(): void
