@@ -17,8 +17,9 @@ class Transaction extends Model //Creacion de la nueva clase "Transaction"
         'transaction_date', //Registro de fecha y hora en que fue realizada la transaccion
     ];
 
-    public function account() //Esta funcion indica que nuestro modelo "transaction" pertenece a "account" y asocia a los datos de la transaccion a la cuenta del cliente.
-    {
-        return $this->belongsTo(Account::class);
-    }
+    //Esta funcion indica que nuestro modelo "transaction" pertenece a "account" y asocia a los datos de la transaccion a la cuenta del cliente.
+    // public function account() 
+    // {
+    //     return $this->belongsTo(Account::class);
+    // }
 }
