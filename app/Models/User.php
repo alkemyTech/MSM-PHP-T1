@@ -26,7 +26,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        // 'role_id',
+        'role_id',
         'deleted'
     ];
 
@@ -39,12 +39,12 @@ class User extends Authenticatable
     // ATRIBUTOS OCULTOS PARA LA SERIALIZACIÓN
     protected $hidden = [
         'password',
-        // 'role_id'
+        'role_id'
     ];
 
-    // protected $with = [
-    //     // 'role',
-    // ];
+    protected $with = [
+         'role',
+     ];
 
     /**
      * The attributes that should be cast.
@@ -55,14 +55,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     
-    // RELACIONES DE FOREIGN KEYS
-    // public function role(): BelongsTo
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
-    // public function account(): HasMany
-    // {
-    //     return $this->hasMany(Account::class);
-    // }
+// // RELACIONES DE FOREIGN KEYS
+//     public function role(): BelongsTo
+//     {
+//         return $this->belongsTo(Role::class);
+//     }
+//     public function account(): HasMany
+//     {
+//         return $this->hasMany(Account::class);
+//     }
 
 }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string('name')->comment('Nombre');
             $table->string('last_name')->comment('Apellido');
             $table->string('email')->unique();
-            $table->string('password')->comment('Contraseña');;
-            // $table->foreignId('role_id')->constrained();
+            $table->string('password')->comment('Contraseña');
+            $table->foreignId('role_id')->constrained();
             $table->timestamps();
             $table->boolean('deleted')->default(false);
         });
