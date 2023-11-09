@@ -20,7 +20,7 @@ class FixedTerm extends Model
 
     //oculta los siguientes campos para que no aparezcan al hacer una consulta a la base de datos
     protected $hidden = [
-       // 'account_id',
+        'account_id',
         'created_at',
         'updated_at',
         'closed_at'
