@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
+     * Registro de usuario.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -38,13 +39,33 @@ class AuthController extends Controller
         // Crear un nuevo usuario con el rol de usuario regular (USER)
         $usuario = User::create(array_merge($request->toArray(), ['role_id' => Role::where('name', 'USER')->first()->id]));
 
+        // Función para generar número de CBU aleatorio
+        function generarCbuAleatorio() {
+            $longitudNumero = 22;
+            $numero = '';
+            for ($i = 0; $i < $longitudNumero; $i++) {
+                $digito = random_int(0, 9);
+                $numero .= $digito;
+            }
+            return $numero;
+        }
+
+        // Validar que el CBU generado aleatoriamente no existe en la tabla accounts
+        do {
+            $cbuArs = generarCbuAleatorio();
+        } while (Account::where('cbu', $cbuArs)->exists());
+
+        do {
+            $cbuUsd = generarCbuAleatorio();
+        } while (Account::where('cbu', $cbuUsd)->exists());
+
         // Crear cuenta en pesos argentinos asociada al usuario
         Account::create([
             'currency' => 'ARS',
             'transaction_limit' => 300000,
             'balance' => 0,
             'user_id' => $usuario->id,
-            'cbu' => '9832576142058764312901', // CBU genérico
+            'cbu' => $cbuArs,
             'deleted' => false,
         ]);
 
@@ -54,7 +75,7 @@ class AuthController extends Controller
             'transaction_limit' => 1000,
             'balance' => 0,
             'user_id' => $usuario->id,
-            'cbu' => '7651092384275098123468', // CBU genérico
+            'cbu' => $cbuUsd, 
             'deleted' => false,
         ]);
 
