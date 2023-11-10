@@ -39,25 +39,11 @@ class AuthController extends Controller
         // Crear un nuevo usuario con el rol de usuario regular (USER)
         $usuario = User::create(array_merge($request->toArray(), ['role_id' => Role::where('name', 'USER')->first()->id]));
 
-        // Función para generar número de CBU aleatorio
-        function generarCbuAleatorio() {
-            $longitudNumero = 22;
-            $numero = '';
-            for ($i = 0; $i < $longitudNumero; $i++) {
-                $digito = random_int(0, 9);
-                $numero .= $digito;
-            }
-            return $numero;
-        }
-
         // Validar que el CBU generado aleatoriamente no existe en la tabla accounts
         do {
-            $cbuArs = generarCbuAleatorio();
-        } while (Account::where('cbu', $cbuArs)->exists());
-
-        do {
-            $cbuUsd = generarCbuAleatorio();
-        } while (Account::where('cbu', $cbuUsd)->exists());
+            $cbuArs = $this->generarCbuAleatorio();
+            $cbuUsd = $this->generarCbuAleatorio();
+        } while (Account::where('cbu', $cbuArs)->exists() || Account::where('cbu', $cbuUsd)->exists());
 
         // Crear cuenta en pesos argentinos asociada al usuario
         Account::create([
@@ -75,7 +61,7 @@ class AuthController extends Controller
             'transaction_limit' => 1000,
             'balance' => 0,
             'user_id' => $usuario->id,
-            'cbu' => $cbuUsd, 
+            'cbu' => $cbuUsd,
             'deleted' => false,
         ]);
 
@@ -84,5 +70,11 @@ class AuthController extends Controller
 
         // Devolver una respuesta de éxito con el token y la información del usuario
         return response()->created(['token' => $token, 'usuario' => $usuario]);
+    }
+
+    // Función para generar número de CBU aleatorio
+    private function generarCbuAleatorio()
+    {
+        return substr(str_shuffle(str_repeat('0123456789', 3)), 0, 22);
     }
 }
