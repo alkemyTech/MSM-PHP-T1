@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class Account extends Model
 {
@@ -20,6 +22,7 @@ class Account extends Model
         'cbu', // Numero de CBU de 22 digitos
         'deleted' // Borrado logico
     ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
