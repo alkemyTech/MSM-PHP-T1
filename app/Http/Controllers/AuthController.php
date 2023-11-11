@@ -36,8 +36,15 @@ class AuthController extends Controller
         // Hashear la contraseña antes de almacenarla
         $request['password'] = Hash::make($request['password']);
 
+        // Verificar si el rol 'USER' existe
+        $userRole = Role::where('name', 'USER')->first();
+        if (!$userRole) {
+            // Crear el rol 'USER' si no existe
+            $userRole = Role::create(['name' => 'USER']);
+        }
+
         // Crear un nuevo usuario con el rol de usuario regular (USER)
-        $usuario = User::create(array_merge($request->toArray(), ['role_id' => Role::where('name', 'USER')->first()->id]));
+        $usuario = User::create(array_merge($request->toArray(), ['role_id' => $userRole->id]));
 
         // Validar que el CBU generado aleatoriamente no existe en la tabla accounts
         do {
