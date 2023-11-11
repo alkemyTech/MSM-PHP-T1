@@ -26,9 +26,10 @@ class FixedTerm extends Model
         'closed_at'
     ];
 
-     /* public function account(): BelongsTo
+    //relacion con el modelo account 
+      public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
-    }  */
+    }  
 
 }
