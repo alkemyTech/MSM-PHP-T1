@@ -12,7 +12,7 @@ Este proyecto es una billetera virtual desarrollada utilizando el framework Lara
 
 ## Requisitos Previos
 
-Asegúrate de tener las siguientes versiones de software instaladas antes de comenzar:
+Asegurate de tener las siguientes versiones de software instaladas antes de comenzar:
 
 - [PHP](https://www.php.net/): Se recomienda PHP 7.3 o superior.
 - [Composer](https://getcomposer.org/): Utiliza Composer 2.0 o superior.
@@ -25,14 +25,14 @@ Asegúrate de tener las siguientes versiones de software instaladas antes de com
 
 ## Documentación de las solicitudes
 
-Podés encontrar la colección de Postman para este proyecto [acá](https://www.postman.com/spacecraft-astronomer-43947792/workspace/my-workspace/collection/26441397-7c814d86-5734-4c47-a0b5-8d0b8540f72f?action=share&creator=26441397&active-environment=26441397-a58a9b50-18ca-4644-94c8-c72a3631c76e) 
+Podés encontrar la colección de Postman para este proyecto [acá](https://cloudy-spaceship-113435.postman.co/workspace/My-Workspace~65592114-9a2e-4700-8cc3-05a83bcff7e4/collection/26441397-7c814d86-5734-4c47-a0b5-8d0b8540f72f?action=share&creator=26441397) 
 
 
 ## Configuración del entorno local (opcional)
 
 Podés utilizar XAMPP para ejecutar el proyecto de forma local:
 
-1) Descarga e instala [XAMPP](https://laravel.com/docs/10.x/passport)
+1) Descarga e instala [XAMPP](https://www.apachefriends.org/es/download.html)
 
 2) Inicia Apache y MySQL en el panel de control de XAMPP.
 
