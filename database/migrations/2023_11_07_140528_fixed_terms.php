@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('fixed_terms', function (Blueprint $table) {
             $table->id(); //columna id autoincremental
             $table->double('amount'); //monto de la transaccion
-            $table->foreign('account_id')->references('id')->on('accounts'); //vinculacion con la tabla account
+            $table->foreignId('account_id')->constrained('accounts'); //vinculacion con la tabla account
             $table->double('interest'); //interes de la transaccion
             $table->double('total'); //valor total de la transccion
             $table->integer('duration');
