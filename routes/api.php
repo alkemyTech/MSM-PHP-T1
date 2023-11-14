@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
-
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AuthController;
+
+
 
 
 /*
@@ -29,5 +29,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         // RUTA LOGIN: Esta ruta maneja la autenticacion de usuarios.
         Route::post('login', [AuthController::class, 'login'])->name('auth.login')->withoutMiddleware(['auth:api']);
 
+        // SOLICITUD DELETE A /users/{id}: 
+        Route::delete('/users/{id}', [UserController::class, 'delete']);
     });
 });
