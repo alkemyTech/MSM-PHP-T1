@@ -20,6 +20,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
+     protected $table = 'users';
+     
     // ATRIBUTOS QUE SE PUEDEN ASIGNAR EN MASA
     protected $fillable = [
         'name',
@@ -38,8 +40,7 @@ class User extends Authenticatable
 
     // ATRIBUTOS OCULTOS PARA LA SERIALIZACIÓN
     protected $hidden = [
-        'password',
-        'role_id'
+        'password'
     ];
 
     protected $with = [
@@ -55,14 +56,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     
-// // RELACIONES DE FOREIGN KEYS
-//     public function role(): BelongsTo
-//     {
-//         return $this->belongsTo(Role::class);
-//     }
-//     public function account(): HasMany
-//     {
-//         return $this->hasMany(Account::class);
-//     }
+// RELACIONES DE FOREIGN KEYS
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function account(): HasMany
+    {
+        return $this->hasMany(Account::class);
+    }
 
 }

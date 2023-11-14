@@ -86,6 +86,7 @@ class AuthController extends Controller
     }
 
 
+
     public function login(Request $request)
     {
         //busca en la base de datos si el email ingresado ya existe
@@ -106,3 +107,5 @@ class AuthController extends Controller
         }
         return response()->json(['error' => 'Usuario no encontrado'], 404); //manejo de errores si el usuario no se encuentra
     }}
+
+}
