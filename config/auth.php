@@ -44,6 +44,8 @@ return [
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',
+            'expires' => now()->addMinutes(2)// Establece el tiempo de expiración a 2 minutos
+
         ],
     ],
 

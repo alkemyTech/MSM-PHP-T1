@@ -84,4 +84,27 @@ class AuthController extends Controller
     {
         return substr(str_shuffle(str_repeat('0123456789', 3)), 0, 22);
     }
+
+
+    public function login(Request $request)
+    {
+        //busca en la base de datos si el email ingresado ya existe
+        $user = User::where('email', $request->input('email'))->first();
+        
+        //valida que el email y contraseña sean requeridos
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        //si pasa las validaciones y el usuario esta autenticado 
+        if (Auth::attempt($credentials)) {
+            $user = User::find(Auth::user()->id); //trae al usuario por id 
+            $token = $user->createToken('token')->accessToken; //muestra el token de acceso
+
+            return response()->ok(['token' => $token, 'user' => $user]); //respuesta mostrando el token y el usuario
+        }
+        return response()->json(['error' => 'Usuario no encontrado'], 404); //manejo de errores si el usuario no se encuentra
+    }
 }
+

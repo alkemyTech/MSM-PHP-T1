@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
+
 
 
 /*
@@ -23,5 +23,9 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         
         // RUTA REGISTER: Esta ruta maneja el registro de nuevos usuarios.
         Route::post('register', [AuthController::class, 'register'])->name('auth.registro')->withoutMiddleware(['auth:api']);
+
+        // RUTA LOGIN: Esta ruta maneja la autenticacion de usuarios.
+        Route::post('login', [AuthController::class, 'login'])->name('auth.login')->withoutMiddleware(['auth:api']);
+
     });
 });
