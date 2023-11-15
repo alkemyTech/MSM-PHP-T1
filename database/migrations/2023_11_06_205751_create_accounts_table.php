@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             //se creara la tabla "accounts" dentro de la base de datos con los siguientes campos
             $table->id();
-            $table->unsignedBigInteger('account_id');
             $table->string('currency', 3)->notNull(); // Divisa a utilizar (ARS,USD)
             $table->double('transaction_limit')->notNull(); // Limite de transacción
             $table->double('balance')->notNull(); // Balance de la cuenta
