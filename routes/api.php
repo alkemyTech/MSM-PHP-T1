@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
 
 
@@ -28,7 +29,9 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         // RUTA LOGIN: Esta ruta maneja la autenticacion de usuarios.
         Route::post('login', [AuthController::class, 'login'])->name('auth.login')->withoutMiddleware(['auth:api']);
 
-        // SOLICITUD DELETE A /users/{id}: 
+        // SOLICITUD DELETE A /users/{id} 
         Route::delete('/users/{id}', [UserController::class, 'delete']);
     });
+        // SOLICITUD POST a /accounts para la creación de cuentas
+        Route::post('/accounts', [AccountController::class, 'createAccount']);
 });
