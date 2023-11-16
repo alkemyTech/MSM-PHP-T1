@@ -30,10 +30,12 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         // RUTA LOGIN: Esta ruta maneja la autenticacion de usuarios.
         Route::post('login', [AuthController::class, 'login'])->name('auth.login')->withoutMiddleware(['auth:api']);
 
-        // SOLICITUD DELETE A /users/{id}: 
+        // SOLICITUD DELETE A /users/{id} 
         Route::delete('/users/{id}', [UserController::class, 'delete']);
 
         //RUTA listar cuentas de usuarios segun su id
         Route::middleware(['auth'])->get('/api/accounts/{id}', [AccountController::class, 'getUserAccounts']);
     });
+        // SOLICITUD POST a /accounts para la creación de cuentas
+        Route::post('/accounts', [AccountController::class, 'createAccount']);
 });
