@@ -30,5 +30,10 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
         // SOLICITUD DELETE A /users/{id}: 
         Route::delete('/users/{id}', [UserController::class, 'delete']);
+        //SOLICITUD INDEX A /users  para traer todos los usuarios 
+        Route::get('/users', [UserController::class, 'index']);
     });
+
+
+
 });
