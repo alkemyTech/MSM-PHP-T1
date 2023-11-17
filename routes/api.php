@@ -31,7 +31,11 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
         // SOLICITUD DELETE A /users/{id} 
         Route::delete('/users/{id}', [UserController::class, 'delete']);
-    });
+      
         // SOLICITUD POST a /accounts para la creación de cuentas
         Route::post('/accounts', [AccountController::class, 'createAccount']);
+
+        // SOLICITUD GET A /users  para traer todos los usuarios 
+        Route::get('/users', [UserController::class, 'index']);
+    });
 });
