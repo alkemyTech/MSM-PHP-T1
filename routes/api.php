@@ -32,10 +32,17 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
         // SOLICITUD DELETE A /users/{id} para eliminar un usuario
         Route::delete('/users/{id}', [UserController::class, 'delete']);
-    });
+      
         // RUTA A /accounts: Esta ruta maneja la creación de cuentas
         Route::post('/accounts', [AccountController::class, 'createAccount']);
 
+        // SOLICITUD POST a /accounts para la creación de cuentas
+        Route::post('/accounts', [AccountController::class, 'createAccount']);
+
+        // SOLICITUD GET A /users  para traer todos los usuarios 
+        Route::get('/users', [UserController::class, 'index']);
+      
         // RUTA A /transactions/deposit: Esta ruta maneja el depósito en una cuenta propia.
         Route::post('/transactions/deposit', [TransactionController::class, 'deposit']);
+    });
 });
