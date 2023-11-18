@@ -104,7 +104,7 @@ class AuthController extends Controller
 
             return response()->ok(['token' => $token, 'user' => $user]); //respuesta mostrando el token y el usuario
         }
-        return response()->json(['error' => 'Usuario no encontrado'], 404); //manejo de errores si el usuario no se encuentra
+       return response()->json(['error' => 'Usuario no encontrado'], 404);
     }
 }
 

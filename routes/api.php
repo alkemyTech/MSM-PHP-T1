@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
 
 
@@ -30,5 +31,8 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
         // SOLICITUD DELETE A /users/{id}: 
         Route::delete('/users/{id}', [UserController::class, 'delete']);
+
+        //RUTA listar cuentas de usuarios segun su id
+        Route::middleware(['auth'])->get('/api/accounts/{id}', [AccountController::class, 'getUserAccounts']);
     });
 });
