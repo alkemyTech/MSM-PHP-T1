@@ -4,7 +4,6 @@ Este proyecto es una billetera virtual desarrollada utilizando el framework Lara
 
 ## Desarrolladores
 
-- Emilio Vernet
 - Jorge Martín Lorente
 - Javier Cavalero
 - Fabián Loza
