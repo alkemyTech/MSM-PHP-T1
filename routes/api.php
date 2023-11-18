@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 
 
@@ -34,9 +34,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
         // SOLICITUD DELETE A /users/{id} para eliminar un usuario
         Route::delete('/users/{id}', [UserController::class, 'delete']);
-        //SOLICITUD INDEX A /users  para traer todos los usuarios 
-        Route::get('/users', [UserController::class, 'index']);
-    });
+       
 
 
 
@@ -44,3 +42,17 @@ Route::middleware(['api', 'auth:api'])->group(function () {
          Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->middleware([AdminMiddleware::class]);
         });
 
+      
+        // SOLICITUD GET A /users  para traer todos los usuarios 
+        Route::get('/users', [UserController::class, 'index']);
+        
+   
+        // RUTA A /accounts: Esta ruta maneja la creación de cuentas de un usuario.
+        Route::post('/accounts', [AccountController::class, 'createAccount']);
+        
+        // RUTA A /transactions/deposit: Esta ruta maneja el depósito en una cuenta propia.
+        Route::post('/transactions/deposit', [TransactionController::class, 'deposit']);
+
+        // RUTA A /transactions/payment: Esta ruta maneja los pagos de una cuenta propia.
+        Route::post('/transactions/payment', [PaymentController::class, 'makePayment']);
+ });
