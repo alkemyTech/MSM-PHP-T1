@@ -3,10 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
-{
+{   // metodo index par listar los usuarios 
+    public function index(Request $request)
+    {   //aca recuperamos el role_id
+        $roleId = $request->user()->role_id;
+        //aca buscamos el registro en la tabla roles con ese id 
+        $role = Role::find($roleId);
+        //aca buscamos el contenido de la columna name de ese registro
+        $userRole = $role->name;
+
+        if ($userRole == "ADMIN" ) {
+            // Si el name de ese registro es admin devolvemos una lista de usuarios
+            $usuarios = User::all();
+            return response()->json($usuarios, 200);
+        } else {
+            // Sino  devolvemos un mensaje de error
+            return response()->json(['message' => 'Role de usuario no válido'], 403);
+        }
+    }
+
     public function delete(Request $request, $id)
     {
         // Verifica si el usuario tiene permisos de ADMIN
