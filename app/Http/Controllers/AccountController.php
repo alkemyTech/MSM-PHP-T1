@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\User;
+use App\Models\Role;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,4 +38,28 @@ class AccountController extends Controller
     {
         return substr(str_shuffle(str_repeat('0123456789', 3)), 0, 22);
     }
+
+
+
+
+    public function getUserAccounts(Request $request, $id)
+{
+    // Obtiene el usuario autenticado
+    $user = $request->user();
+
+    // Verifica si el usuario tiene el rol de administrador
+    if ($user && $user->role_id !== 2) { 
+        return response()->json(['message' => "No tiene permiso para acceder a esta función"], 403);
+    }
+
+    // Busca las cuentas asociadas al usuario con el ID proporcionado
+    $accounts = Account::where('user_id', $id)->get();
+
+    if ($accounts->isEmpty()) {
+        return response()->json(['message' => "No se encontraron cuentas asociadas a este usuario"], 404);
+    }
+
+    return response()->json(['accounts' => $accounts], 200);
+}
+
 }

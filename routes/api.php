@@ -44,5 +44,8 @@ Route::middleware(['api', 'auth:api'])->group(function () {
       
         // RUTA A /transactions/deposit: Esta ruta maneja el depósito en una cuenta propia.
         Route::post('/transactions/deposit', [TransactionController::class, 'deposit']);
-    });
+
+         //RUTA listar cuentas de usuarios segun su id
+         Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->withoutMiddleware(['auth:api']);
+        });
 });
