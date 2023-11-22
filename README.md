@@ -24,7 +24,7 @@ Asegurate de tener las siguientes versiones de software instaladas antes de come
 
 ## Documentación de las solicitudes
 
-Podés encontrar la colección de Postman para este proyecto [acá](https://cloudy-spaceship-113435.postman.co/workspace/My-Workspace~65592114-9a2e-4700-8cc3-05a83bcff7e4/collection/26441397-7c814d86-5734-4c47-a0b5-8d0b8540f72f?action=share&creator=26441397) 
+Podés encontrar la colección de Postman para este proyecto [acá](https://app.getpostman.com/join-team?invite_code=e2df96e1d220182ac93c4ffdc6a1e702&target_code=ee0bc31aecfcdd6caac6c2742c8ef721) 
 
 
 ## Configuración del entorno local (opcional)
