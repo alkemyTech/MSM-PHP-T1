@@ -35,8 +35,6 @@ class AccountController extends Controller
     {
         return substr(str_shuffle(str_repeat('0123456789', 3)), 0, 22);
     }
-<<<<<<< HEAD
-=======
 
 
 
@@ -64,5 +62,4 @@ class AccountController extends Controller
     return response()->json(['accounts' => $accounts], 200);
 }
 
->>>>>>> b34f23c (SMP1-16 modifica la funcion getUserAccounts y elimina middleware de admin)
 }
