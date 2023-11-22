@@ -35,4 +35,34 @@ class AccountController extends Controller
     {
         return substr(str_shuffle(str_repeat('0123456789', 3)), 0, 22);
     }
+<<<<<<< HEAD
+=======
+
+
+
+
+    public function getUserAccounts(Request $request, $user_id)
+{
+    // Obtiene el usuario autenticado
+    $user = $request->user();
+
+    // Obtiene el rol de administrador dinámicamente
+    $adminRole = Role::where('name', 'ADMIN')->first();
+
+    // Verifica si el usuario autenticado tiene el rol de administrador
+    if ($user && $user->role_id !== $adminRole->id) {
+        return response()->json(['message' => "No tiene permiso para acceder a esta función"], 403);
+    }
+
+    // Busca las cuentas asociadas al usuario con el ID proporcionado
+    $accounts = Account::where('user_id', $user_id)->get();
+
+    if ($accounts->isEmpty()) {
+        return response()->json(['message' => "No se encontraron cuentas asociadas a este usuario"], 404);
+    }
+
+    return response()->json(['accounts' => $accounts], 200);
+}
+
+>>>>>>> b34f23c (SMP1-16 modifica la funcion getUserAccounts y elimina middleware de admin)
 }
