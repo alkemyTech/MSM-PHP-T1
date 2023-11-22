@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\UserBalanceDTO;
 
 class AccountController extends Controller
 {
@@ -34,5 +35,11 @@ class AccountController extends Controller
     private function generarCbuAleatorio()
     {
         return substr(str_shuffle(str_repeat('0123456789', 3)), 0, 22);
+    }
+
+    // Proporciona el balance de la cuenta del usuario mediante DTO UserBalance y transforma en Array el resultado
+    public function balance()
+    {
+        return response()->ok(['Balance de la cuenta' => (new UserBalanceDTO())->toArray()]);
     }
 }
