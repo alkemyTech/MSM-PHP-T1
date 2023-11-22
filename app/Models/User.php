@@ -65,5 +65,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Account::class);
     }
-
+    public function transactions()
+    {
+        return $this->hasManyThrough(
+            Transaction::class,
+            Account::class,
+            'user_id', // Foreign key en la tabla accounts que apunta al id de users
+            'account_id', // Foreign key en la tabla transactions que apunta al id de accounts
+            'id', // Local key en la tabla users
+            'id' // Local key en la tabla accounts
+        );
+    }
 }
