@@ -68,4 +68,34 @@ class AccountController extends Controller
     {
         return response()->ok(['Balance de la cuenta' => (new UserBalanceDTO())->toArray()]);
     }
+
+    public function editAccount($id, Request $request)
+    {
+        // Validar que 'transaction_limit' esté presente en la solicitud.
+        // Si no se completa con un NUMBER devuelve un error.
+        $request->validate([
+            'transaction_limit' => 'required|numeric',
+        ]);
+
+        // Obtener la cuenta a editar.
+        $account = Account::find($id);
+
+        // Verificar si la cuenta existe.
+        if (!$account) {
+            return response()->json(['error' => 'La cuenta no existe.'], 404);
+        }
+
+        // Verificar si la cuenta pertenece al usuario logueado.
+        if ($account->user_id !== Auth::id()) {
+            return response()->json(['error' => 'La cuenta no pertenece al usuario logueado.'], 403);
+        }
+
+        // Actualizar el tope de transferencia de la cuenta.
+        $account->update([
+            'transaction_limit' => $request->input('transaction_limit'),
+        ]);
+
+        // Devolver la cuenta actualizada.
+        return response()->json(['message' => 'Cuenta actualizada con éxito.', 'account' => $account]);
+    }
 }
