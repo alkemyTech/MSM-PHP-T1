@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use App\Models\Role;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
@@ -19,13 +19,19 @@ class UserFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {
+    {    $role_id = Role::all()->pluck('id')->toArray();// define una lista de roles posibles
+         $name = fake('es_ES')->firstName($gender = 'male'|'female');//define un nombre femenino o masculino
+         $last_name = fake('es_ES')->lastName();//apellido
+         $userName = strtolower($name . '.' . $last_name);
+         $email = fake()->freeEmailDomain();
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'name' => $name,//nombre
+            'last_name' => $last_name,//apellido
+            'email' => $userName  . '@' . $email,//email
+            'password' => Hash::make(fake()->password()),//contraseña
+            'role_id' => fake()->randomElement($role_id),//elige un rol
+            'deleted'=>0//un campo borrado por defecto en 0
+
         ];
     }
 
