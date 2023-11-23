@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,9 +18,18 @@ class Transaction extends Model //Creacion de la nueva clase "Transaction"
         'transaction_date', //Registro de fecha y hora en que fue realizada la transaccion
     ];
 
+    protected $dates = ['transaction_date'];
+
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function getTransactionDateAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('America/Argentina/Buenos_Aires')->format('d-m-y H:i:s');
+    }
+
     //Esta funcion indica que nuestro modelo "transaction" pertenece a "account" y asocia a los datos de la transaccion a la cuenta del cliente.
-    // public function account() 
-    // {
-    //     return $this->belongsTo(Account::class);
-    // }
+        public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }
