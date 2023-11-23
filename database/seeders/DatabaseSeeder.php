@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 use App\Models\Account;
 use App\Models\User;
+use App\Models\Transaction;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,6 +18,6 @@ class DatabaseSeeder extends Seeder
       
 
         Account::factory()->count(10)->create();//el seeder de cuentas
-        User::factory()->count(10)->create();//el seeder de usuarios
+        Transaction::factory()->count(10)->create(); // Seeder de transactions
     }
 }
