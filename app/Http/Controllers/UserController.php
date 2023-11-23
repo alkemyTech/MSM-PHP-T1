@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -46,5 +47,14 @@ class UserController extends Controller
             // Retorna una respuesta JSON indicando que el usuario no tiene permisos para realizar la acción (código 403)
             return response()->json(['message' => 'No tienes permiso para realizar esta acción.'], 403);
         }
+    }
+
+    public function userDetails()
+    {
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        // Devolver la información del usuario
+        return response()->json(['user' => $user]);
     }
 }
