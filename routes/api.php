@@ -35,6 +35,9 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
         // SOLICITUD GET A /users para traer todos los usuarios (Solo ADMIN)
         Route::get('/users', [UserController::class, 'index']);
+
+        //SOLICITUD GET A /transaction para traer el detalle de una transaccion 
+        Route::get('/consultation/{id}', [TuControlador::class, 'consultation']);
     });
     
     // SOLICITUD POST a /accounts para la creación de cuentas
@@ -54,4 +57,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
     // SOLICITUD GET a /transactions: Esta ruta obtiene todas las transacciones del usuario autenticado.
     Route::get('/transactions', [TransactionController::class, 'index']);
+
+    //SOLICITUD GET A /transaction para traer el detalle de una transaccion 
+    Route::get('/transactionDescription/{transaction_id}', [TransactionController::class, 'transactionDescription']);
 });

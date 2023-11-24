@@ -141,4 +141,24 @@ class TransactionController extends Controller
         
         return response()->json(['message' => $message, 'transactions' => $transactions]);
     }
+
+    
+    public function transactionDescription ( $transaction_id,Request $request){ //metodo para consultar el detalle de una transaccion.
+
+   
+        
+        $transaction = Transaction::find($transaction_id);//traemos la solicitud con el id correspondiente 
+    
+            // Verificamos si la transacción existe.
+            if (!$transaction) {
+                return response()->json(['error' => 'La transacción no existe.'], 404);
+            }
+
+              // Verificar si la transacción pertenece al usuario logueado.
+              if ($transaction->account->user_id !== Auth::id()) {
+                return response()->json(['error' => 'La transacción no pertenece al usuario logueado.'], 403);// en caso de no ser el usuario logeado error
+            }
+            else{  return response()->created(['message' => 'Description successfully updated', $transaction]);}// en caso de ser el usuario devolvemos una respuesta 
+       
+    }
 }
