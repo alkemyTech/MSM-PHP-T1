@@ -45,10 +45,11 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         Route::get('/users', [UserController::class, 'index']);
     
 
-         //RUTA listar cuentas de usuarios segun su id
-         Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->middleware([AdminMiddleware::class]);
 
 
+
+    //RUTA listar cuentas de usuarios segun su id
+    Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->middleware([AdminMiddleware::class]);
 
     // SOLICITUD POST a /accounts para la creación de cuentas
     Route::post('/accounts', [AccountController::class, 'createAccount']);

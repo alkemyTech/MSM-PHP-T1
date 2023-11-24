@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class AdminMiddleware
 {
     public function handle($request, Closure $next)
-{
-    if (Auth::check() && Auth::user()->role_id === 2) {
-        return $next($request);
+    {
+        // Verificar si el usuario autenticado tiene el rol de administrador
+        if (Auth::check() && Auth::user()->role_id === 2) {
+            return $next($request);
+        }
+
+        // Si el usuario no es administrador, puedes redirigir o devolver una respuesta de error
+        return response()->json(['error' => 'Acceso no autorizado'], 403);
     }
-
-    return redirect()->route('login'); // Esto redirigirá al usuario a la página de inicio de sesión si no está autenticado.
 }
-}
-
