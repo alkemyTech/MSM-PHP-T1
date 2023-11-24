@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Http\Request;
 
 
@@ -22,7 +23,7 @@ use Illuminate\Http\Request;
 
 Route::middleware(['api', 'auth:api'])->group(function () {
     // Define un grupo de rutas con prefijo 'auth'
-    Route::prefix('auth')->group(function () { 
+    Route::prefix('auth', 'admin')->group(function () { 
         
         // RUTA REGISTER: Esta ruta maneja el registro de nuevos usuarios.
         Route::post('register', [AuthController::class, 'register'])->name('auth.registro')->withoutMiddleware(['auth:api']);
@@ -46,6 +47,6 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         Route::post('/transactions/deposit', [TransactionController::class, 'deposit']);
 
          //RUTA listar cuentas de usuarios segun su id
-         Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->withoutMiddleware(['auth:api']);
+         Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->middleware([AdminMiddleware::class]);
         });
 });
