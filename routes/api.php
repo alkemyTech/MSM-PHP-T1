@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Http\Request;
 
 
@@ -34,8 +35,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         // SOLICITUD DELETE A /users/{id} para eliminar un usuario
         Route::delete('/users/{id}', [UserController::class, 'delete']);
        
-         //RUTA listar cuentas de usuarios segun su id
-         Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->middleware([AdminMiddleware::class]);
+        
         });
 
         // SOLICITUD DELETE A /users/{id} para eliminar un usuario
@@ -44,6 +44,12 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         // SOLICITUD GET A /users para traer todos los usuarios (Solo ADMIN)
         Route::get('/users', [UserController::class, 'index']);
     
+
+         //RUTA listar cuentas de usuarios segun su id
+         Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->middleware([AdminMiddleware::class]);
+
+
+
     // SOLICITUD POST a /accounts para la creación de cuentas
     Route::post('/accounts', [AccountController::class, 'createAccount']);
     
