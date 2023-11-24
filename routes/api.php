@@ -54,4 +54,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
     // SOLICITUD GET a /transactions: Esta ruta obtiene todas las transacciones del usuario autenticado.
     Route::get('/transactions', [TransactionController::class, 'index']);
+
+
+    Route::patch('/transactions/{id}', [TransactionController::class, 'updateDescription']);
 });

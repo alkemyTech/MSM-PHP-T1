@@ -132,13 +132,43 @@ class TransactionController extends Controller
     {
         $user = auth()->user(); // Obtiene el usuario autenticado
         $transactions = Transaction::with('account')
+                                    // Filtra las transacciones que pertenecen al usuario autenticado.
                                     ->whereHas('account', function ($query) use ($user) {
                                         $query->where('user_id', $user->id);
                                     })
-                                    ->get(); 
+                                    ->get(); // Obtiene todas las transacciones que cumplen con los criterios anteriores.
     
-        $message = "Listado de transacciones de {$user->name}";
+        $message = "Listado de transacciones de {$user->name} {$user->last_name}";
         
         return response()->json(['message' => $message, 'transactions' => $transactions]);
+    } 
+    public function updateDescription($id, Request $request)
+    {
+        // Validar que 'description' esté presente en la solicitud.
+        // Si no se completa con un STRING devuelve un error.
+        $request->validate([
+            'description' => 'required|string',
+        ]);
+
+        // Obtener la transacción a actualizar.
+        $transaction = Transaction::find($id);
+
+        // Verificar si la transacción existe.
+        if (!$transaction) {
+            return response()->json(['error' => 'La transacción no existe.'], 404);
+        }
+
+        // Verificar si la transacción pertenece al usuario logueado.
+        if ($transaction->account->user_id !== Auth::id()) {
+            return response()->json(['error' => 'La transacción no pertenece al usuario logueado.'], 403);
+        }
+
+        // Actualizar la descripción de la transacción.
+        $transaction->update([
+            'description' => $request->input('description'),
+        ]);
+
+        // Devolver la transacción actualizada.
+        return response()->json(['message' => 'Descripción de la transacción actualizada con éxito.', 'transaction' => $transaction]);
     }
 }
