@@ -8,6 +8,7 @@ use App\Models\Role;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\UserBalanceDTO;
 
 class AccountController extends Controller
 {
@@ -65,4 +66,9 @@ class AccountController extends Controller
     return response()->json(['accounts' => $accounts], 200);
 }
 
+    // Proporciona el balance de la cuenta del usuario mediante DTO UserBalance y transforma en Array el resultado
+    public function balance()
+    {
+        return response()->ok(['Balance de la cuenta' => (new UserBalanceDTO())->toArray()]);
+    }
 }

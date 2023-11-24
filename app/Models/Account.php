@@ -23,8 +23,14 @@ class Account extends Model
         'deleted' // Borrado logico
     ];
 
+    protected $hidden = ['created_at', 'updated_at', 'deleted'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 }
