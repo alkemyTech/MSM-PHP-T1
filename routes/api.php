@@ -25,16 +25,16 @@ use Illuminate\Http\Request;
 Route::middleware(['api', 'auth:api'])->group(function () {
     // Define un grupo de rutas con prefijo 'auth'
     Route::prefix('auth')->group(function () {
-        // SOLICITUD POST A REGISTER: Esta ruta maneja el registro de nuevos usuarios.
+        // SOLICITUD POST a register: Ruta que maneja el registro de nuevos usuarios.
         Route::post('register', [AuthController::class, 'register'])->name('auth.registro')->withoutMiddleware(['auth:api']);
 
-        // SOLICITUD POST A LOGIN: Esta ruta maneja la autenticacion de usuarios.
+        // SOLICITUD POST a login: Ruta que maneja la autenticacion de usuarios.
         Route::post('login', [AuthController::class, 'login'])->name('auth.login')->withoutMiddleware(['auth:api']);
 
-        // SOLICITUD DELETE A /users/{id} para eliminar un usuario
+        // SOLICITUD DELETE a /users/{id}: Ruta para eliminar un usuario
         Route::delete('/users/{id}', [UserController::class, 'delete']);
 
-        // SOLICITUD GET A /users para traer todos los usuarios (Solo ADMIN)
+        // SOLICITUD GET a /users: Ruta para traer todos los usuarios (Solo ADMIN)
         Route::get('/users', [UserController::class, 'index']);
 
 
@@ -42,22 +42,28 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
     //RUTA listar cuentas de usuarios segun su id
     Route::get('/accounts/{user_id}', [AccountController::class, 'getUserAccounts'])->middleware([AdminMiddleware::class]);
-
-    // SOLICITUD POST a /accounts para la creación de cuentas
+    
+    // SOLICITUD POST a /accounts: Ruta para crear una cuenta en ARS o USD
     Route::post('/accounts', [AccountController::class, 'createAccount']);
     
-    // SOLICITUD POST A /transactions/deposit: Esta ruta maneja el depósito en una cuenta propia.
+    // SOLICITUD POST a /transactions/deposit: Ruta que maneja el depósito en una cuenta propia.
     Route::post('/transactions/deposit', [TransactionController::class, 'deposit']);
 
-    // SOLICITUD POST A /transactions/send: Esta ruta maneja el envio de dinero entre cuentas
+    // SOLICITUD POST a /transactions/send: Ruta que maneja el envio de dinero entre cuentas.
     Route::post('/transactions/send', [TransactionController::class, 'sendMoney']);
       
-    // SOLICITUD GET a /accounts/balance para obtener el estado de la cuenta del cliente
+    // SOLICITUD GET a /accounts/balance: Ruta para obtener el estado de la cuenta del cliente.
     Route::get('/accounts/balance', [AccountController::class, 'balance']);
   
-    // SOLICITUD POST A /transactions/payment: Esta ruta maneja los pagos de una cuenta propia.
+    // SOLICITUD POST a /transactions/payment: Ruta que maneja los pagos de una cuenta propia.
     Route::post('/transactions/payment', [PaymentController::class, 'makePayment']);
 
-    // SOLICITUD GET a /transactions: Esta ruta obtiene todas las transacciones del usuario autenticado.
+    // SOLICITUD GET a /transactions: Ruta para obtener las transacciones del usuario autenticado.
     Route::get('/transactions', [TransactionController::class, 'index']);
+
+    // SOLICITUD PATCH a /transactions/{id}: Ruta para editar la descripcion de una transaccion.
+    Route::patch('/transactions/{id}', [TransactionController::class, 'updateDescription']);
+
+    // SOLICITUD PATCH a /accounts/{id}: Ruta para editar el limite de transaccion de una cuenta
+    Route::patch('/accounts/{id}', [AccountController::class, 'editAccount']);
 });

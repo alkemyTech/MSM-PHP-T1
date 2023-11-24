@@ -13,7 +13,7 @@ class TransactionFactory extends Factory
         $currencies = Account::all()->pluck('currency')->toArray(); // Conversion a array de los 'currency' de las cuentas
         $currency = fake()->randomElement($currencies); // Toma una 'currency' aleatoria
 
-        $amountRange = ($currency === 'ARS') ? [0, 600000] : [0, 1000]; // Genera un monto aleatorio basado en los rangos establecidos
+        $amountRange = ($currency === 'ARS') ? [0, 300000] : [0, 1000]; // Genera un monto aleatorio basado en los rangos establecidos
         $amount = fake()->randomFloat(2, ...$amountRange);
 
         $accountIds = Account::all()->pluck('id')->toArray(); // Conversion a array de los id de las cuentas
