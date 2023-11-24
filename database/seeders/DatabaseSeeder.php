@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use App\Models\User;
 use App\Models\Account;
 use App\Models\Transaction;
 
@@ -14,12 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+      
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::factory()->count(10)->create();//el seeder de usuarios
         Account::factory()->count(10)->create();//el seeder de cuentas
         Transaction::factory()->count(10)->create(); // Seeder de transactions
     }

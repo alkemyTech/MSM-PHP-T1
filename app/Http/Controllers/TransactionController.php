@@ -128,4 +128,17 @@ class TransactionController extends Controller
             return response()->json(['error' => 'Error en la transacción: ' . $e->getMessage()], 500);
         }
     }
+    public function index()
+    {
+        $user = auth()->user(); // Obtiene el usuario autenticado
+        $transactions = Transaction::with('account')
+                                    ->whereHas('account', function ($query) use ($user) {
+                                        $query->where('user_id', $user->id);
+                                    })
+                                    ->get(); 
+    
+        $message = "Listado de transacciones de {$user->name}";
+        
+        return response()->json(['message' => $message, 'transactions' => $transactions]);
+    }
 }
