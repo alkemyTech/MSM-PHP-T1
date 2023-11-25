@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\FixedTermController;
 use Illuminate\Http\Request;
 
 
@@ -60,4 +61,6 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
     // SOLICITUD PATCH a /accounts/{id}: Ruta para editar el limite de transaccion de una cuenta
     Route::patch('/accounts/{id}', [AccountController::class, 'editAccount']);
-});
+
+    // SOLICITUD POST a /fixed_terms para crear un nuevo plazo fijo
+    Route::post('fixed_terms', [FixedTermController::class, 'create']);});
