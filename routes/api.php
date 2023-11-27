@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\FixedTermController;
 use Illuminate\Http\Request;
 
 
@@ -69,4 +70,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
   
     //SOLICITUD GET A /transaction para traer el detalle de una transaccion 
     Route::get('/transactionDescription/{transaction_id}', [TransactionController::class, 'transactionDescription']);
+  
+    // SOLICITUD POST a /fixed_terms para crear un nuevo plazo fijo
+    Route::post('fixed_terms', [FixedTermController::class, 'create']);
 });
