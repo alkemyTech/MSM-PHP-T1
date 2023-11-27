@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-     protected $table = 'users';
+    protected $table = 'users';
      
     // ATRIBUTOS QUE SE PUEDEN ASIGNAR EN MASA
     protected $fillable = [
@@ -40,7 +40,9 @@ class User extends Authenticatable
 
     // ATRIBUTOS OCULTOS PARA LA SERIALIZACIÓN
     protected $hidden = [
-        'password'
+        'password',
+        'created_at',
+        'updated_at'
     ];
 
     protected $with = [

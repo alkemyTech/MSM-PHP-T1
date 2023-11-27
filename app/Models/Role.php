@@ -13,6 +13,10 @@ class Role extends Model
         'name',
         'description',
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     public function users()// Define la relación uno a muchos con los usuarios
     {

@@ -60,4 +60,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
     // SOLICITUD PATCH a /accounts/{id}: Ruta para editar el limite de transaccion de una cuenta
     Route::patch('/accounts/{id}', [AccountController::class, 'editAccount']);
+
+    // Solicitud GET a /auth/me: Ruta para obtener el detalle de un usuario.
+    Route::get('/auth/me', [UserController::class, 'userDetails']);
 });
