@@ -36,6 +36,9 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
         // SOLICITUD GET a /users: Ruta para traer todos los usuarios (Solo ADMIN)
         Route::get('/users', [UserController::class, 'index']);
+
+        //SOLICITUD GET A /transaction para traer el detalle de una transaccion 
+        Route::get('/consultation/{id}', [TuControlador::class, 'consultation']);
     });
     
     // SOLICITUD POST a /accounts: Ruta para crear una cuenta en ARS o USD
@@ -62,5 +65,12 @@ Route::middleware(['api', 'auth:api'])->group(function () {
     // SOLICITUD PATCH a /accounts/{id}: Ruta para editar el limite de transaccion de una cuenta
     Route::patch('/accounts/{id}', [AccountController::class, 'editAccount']);
 
+    // Solicitud GET a /auth/me: Ruta para obtener el detalle de un usuario.
+    Route::get('/auth/me', [UserController::class, 'userDetails']);
+  
+    //SOLICITUD GET A /transaction para traer el detalle de una transaccion 
+    Route::get('/transactionDescription/{transaction_id}', [TransactionController::class, 'transactionDescription']);
+  
     // SOLICITUD POST a /fixed_terms para crear un nuevo plazo fijo
-    Route::post('fixed_terms', [FixedTermController::class, 'create']);});
+    Route::post('fixed_terms', [FixedTermController::class, 'create']);
+});
