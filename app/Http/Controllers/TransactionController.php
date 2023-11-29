@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 class TransactionController extends Controller
 {
@@ -60,9 +61,13 @@ class TransactionController extends Controller
         if (!$account || $account->user_id !== $user->id) {
             return response()->json(['error' => 'La cuenta emisora no existe o no pertenece al usuario logueado.'], 422);
         }
-
-        if ($account->balance < $request->input('amount') || $account->transaction_limit < $request->input('amount')) {
-            return response()->json(['error' => 'Saldo o límite insuficiente'], 400);
+    
+        if ($account->balance < $request->input('amount')) {
+            return response()->json(['error' => 'Saldo insuficiente'], 400);
+        }
+    
+        if ($account->transaction_limit < $request->input('amount')) {
+            return response()->json(['error' => 'Excede el límite permitido'], 400);
         }
 
         // Obtener el usuario receptor
@@ -128,20 +133,39 @@ class TransactionController extends Controller
             return response()->json(['error' => 'Error en la transacción: ' . $e->getMessage()], 500);
         }
     }
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user(); // Obtiene el usuario autenticado
-        $transactions = Transaction::with('account')
-                                    // Filtra las transacciones que pertenecen al usuario autenticado.
-                                    ->whereHas('account', function ($query) use ($user) {
-                                        $query->where('user_id', $user->id);
-                                    })
-                                    ->get(); // Obtiene todas las transacciones que cumplen con los criterios anteriores.
+        $user = auth()->user();
+    
+        // Obtén el número de elementos por página (en este caso, 10 por página)
+        $perPage = 10;
+    
+        // Obtén el número de la página actual del parámetro de la URL (?page=X)
+        $currentPage = $request->query('page', 1);
+    
+        // Modifica la consulta para obtener solo las transacciones que pertenecen al usuario autenticado.
+        $transactionsQuery = Transaction::with('account')
+            ->whereHas('account', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+    
+        // Utiliza el método simplePaginate para obtener la paginación de las transacciones.
+        $transactions = $transactionsQuery->simplePaginate($perPage, ['*'], 'page', $currentPage);
+    
+        // Construye las URLs de las páginas anterior y siguiente
+        $previousPageUrl = $transactions->previousPageUrl();
+        $nextPageUrl = $transactions->nextPageUrl();
     
         $message = "Listado de transacciones de {$user->name} {$user->last_name}";
-        
-        return response()->json(['message' => $message, 'transactions' => $transactions]);
-    } 
+    
+        // Retorna la respuesta JSON con la información paginada
+        return response()->json([
+            'message' => $message,
+            'transactions' => $transactions,
+            'previous_page_url' => $previousPageUrl,
+            'next_page_url' => $nextPageUrl,
+        ]);
+    }
     public function updateDescription($id, Request $request)
     {
         // Validar que 'description' esté presente en la solicitud.
