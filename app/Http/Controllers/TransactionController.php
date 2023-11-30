@@ -197,22 +197,30 @@ class TransactionController extends Controller
     }
 
     
-    public function transactionDescription ( $transaction_id,Request $request){ //metodo para consultar el detalle de una transaccion.
-
-   
-        
-        $transaction = Transaction::find($transaction_id);//traemos la solicitud con el id correspondiente 
+    public function transactionDescription($transaction_id, Request $request)
+    {
+        // Buscar la transacción por el ID
+        $transaction = Transaction::find($transaction_id);
     
-            // Verificamos si la transacción existe.
-            if (!$transaction) {
-                return response()->json(['error' => 'La transacción no existe.'], 404);
-            }
-
-              // Verificar si la transacción pertenece al usuario logueado.
-              if ($transaction->account->user_id !== Auth::id()) {
-                return response()->json(['error' => 'La transacción no pertenece al usuario logueado.'], 403);// en caso de no ser el usuario logeado error
-            }
-            else{  return response()->created(['message' => 'Description successfully updated', $transaction]);}// en caso de ser el usuario devolvemos una respuesta 
-       
+        // Verificar si la transacción no existe
+        if (!$transaction) {
+            // Devolver respuesta con mensaje de error en español y código de estado 404 (Not Found)
+            return response()->json(['error' => 'La transacción no existe.'], 404);
+        }
+    
+        // Verificar si la transacción pertenece al usuario logueado
+        if ($transaction->account->user_id !== Auth::id()) {
+            // Devolver respuesta con mensaje de error y código de estado 403 (Forbidden)
+            return response()->json(['error' => 'La transacción no pertenece al usuario logueado.'], 403);
+        }
+    
+        // Construir la respuesta exitosa con el mensaje y la información de la transacción
+        $response = [
+            'message' => 'Descripción actualizada exitosamente',
+            'data' => [$transaction],
+        ];
+    
+        // Devolver respuesta exitosa y código de estado 201 (Created)
+        return response()->json($response, 201);
     }
 }

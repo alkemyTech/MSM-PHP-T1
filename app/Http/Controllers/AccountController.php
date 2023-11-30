@@ -6,6 +6,7 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\UserBalanceDTO;
+use App\Models\User;
 
 class AccountController extends Controller
 {
@@ -37,10 +38,51 @@ class AccountController extends Controller
         return substr(str_shuffle(str_repeat('0123456789', 3)), 0, 22);
     }
 
-    // Proporciona el balance de la cuenta del usuario mediante DTO UserBalance y transforma en Array el resultado
+    
     public function balance()
     {
-        return response()->ok(['Balance de la cuenta' => (new UserBalanceDTO())->toArray()]);
+        $userId = Auth::id();
+        $user = User::find($userId);
+    
+        if (!$user) {
+            // Manejar el caso en que el usuario no se encuentra
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+    
+        // Obtener las cuentas del usuario
+        $accounts = $user->account;
+    
+        // Verificar si hay cuentas antes de intentar iterar
+        if ($accounts) {
+            $arsBalance = 0;
+            $usdBalance = 0;
+    
+            // Calcular el balance para cuentas ARS y USD
+            foreach ($accounts as $account) {
+                if ($account->currency === 'ARS') {
+                    $arsBalance += $account->balance;
+                } elseif ($account->currency === 'USD') {
+                    $usdBalance += $account->balance;
+                }
+            }
+        } else {
+            // Si no hay cuentas, inicializar los saldos en cero
+            $arsBalance = 0;
+            $usdBalance = 0;
+        }
+    
+        $balanceData = [
+            'ARS accounts balance' => $arsBalance,
+            'USD accounts balance' => $usdBalance,
+        ];
+    
+        // Crear una instancia de UserBalanceDTO y pasar el balance
+        $userBalanceDTO = new UserBalanceDTO($balanceData);
+    
+        // Obtener los datos de balance del DTO
+        $userData = $userBalanceDTO->toArray();
+        // Devuelve una respuesta con el nombre y apellido de quien lo consulta
+        return response()->json(["Balance de la cuenta de {$user->name} {$user->last_name}" => $userData]);
     }
 
     public function editAccount($id, Request $request)
