@@ -5,10 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use App\Http\UserBalanceDTO;
 
 class AccountController extends Controller
 {
+
+    public function index()
+    {
+        // Query para traer todas las cuentas que no esten eliminadas
+        $accounts = Account::where('deleted', false)->get();
+
+        // Paginado con un limite de 10 cuentas por pagina
+        $accounts = $accounts->simplePaginate(10);
+
+        // Respuesta JSON con las cuentas encontradas
+        return response()->ok(['accounts' => $accounts]);
+    }
+
+    public function account($user_id)
+    {
+        // Query para traer las cuentas del usuario por su ID y que no esten eliminadas
+        $accounts = Account::where('user_id', $user_id)->where('deleted', false)->get();
+
+        // Paginado con un limite de 10 cuentas por pagina
+        $accounts = $accounts->simplePaginate(10);
+
+        // Respuesta JSON con las cuentas encontradas
+        return response()->ok(['accounts' => $accounts]);
+    }
+
     public function createAccount(Request $request)
     {
         // Validación de la solicitud
