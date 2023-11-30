@@ -13,6 +13,7 @@ class FixedTerm extends Model
     //asigna qué columnas de la base de datos se pueden llenar de forma masiva
     protected $fillable = [
         'amount',
+        'account_id',
         'interest',
         'total',
         'duration'
@@ -20,7 +21,6 @@ class FixedTerm extends Model
 
     //oculta los siguientes campos para que no aparezcan al hacer una consulta a la base de datos
     protected $hidden = [
-        'account_id',
         'created_at',
         'updated_at',
         'closed_at'
