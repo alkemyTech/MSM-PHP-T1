@@ -68,4 +68,33 @@ class UserController extends Controller
         // Devolver la información del usuario
         return response()->json(['user' => $user]);
     }
+
+    public function updateUserProfile(Request $request)
+    {
+        // Obtener el usuario autenticado
+        $authenticatedUser = $request->user();
+    
+        // Validar que solo el usuario autenticado puede realizar la actualización
+        if ($authenticatedUser->id !== $request->user_id) {
+            return response()->json(['message' => 'No tienes permiso para actualizar este perfil'], 403);
+        }
+    
+        // Validar los campos que se pueden actualizar
+        $request->validate([
+            'name' => 'string|max:255',
+            'last_name' => 'string|max:255',
+            'password' => 'string|min:6',
+        ]);
+    
+        // Actualizar los campos permitidos
+        $authenticatedUser->update([
+            'name' => $request->input('name', $authenticatedUser->name),
+            'last_name' => $request->input('last_name', $authenticatedUser->last_name),
+            'password' => $request->has('password') ? bcrypt($request->input('password')) : $authenticatedUser->password,
+        ]);
+    
+        // Retornar una respuesta JSON indicando que la actualización fue exitosa
+        return response()->json(['message' => 'Datos de usuario actualizados correctamente']);
+    }
+
 }
