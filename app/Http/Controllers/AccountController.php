@@ -14,24 +14,18 @@ class AccountController extends Controller
 
     public function index()
     {
-        // Query para traer todas las cuentas que no esten eliminadas
-        $accounts = Account::where('deleted', false)->get();
-
-        // Paginado con un limite de 10 cuentas por pagina
-        $accounts = $accounts->simplePaginate(10);
-
+        // Query para traer todas las cuentas que no esten eliminadas y paginar los resultados
+        $accounts = Account::where('deleted', false)->simplePaginate(10);
+    
         // Respuesta JSON con las cuentas encontradas
         return response()->ok(['accounts' => $accounts]);
     }
-
+    
     public function account($user_id)
     {
-        // Query para traer las cuentas del usuario por su ID y que no esten eliminadas
-        $accounts = Account::where('user_id', $user_id)->where('deleted', false)->get();
-
-        // Paginado con un limite de 10 cuentas por pagina
-        $accounts = $accounts->simplePaginate(10);
-
+        // Query para traer las cuentas del usuario por su ID y que no estén eliminadas y paginar los resultados
+        $accounts = Account::where('user_id', $user_id)->where('deleted', false)->simplePaginate(10);
+    
         // Respuesta JSON con las cuentas encontradas
         return response()->ok(['accounts' => $accounts]);
     }
