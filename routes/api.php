@@ -40,6 +40,12 @@ Route::middleware(['api', 'auth:api'])->group(function () {
     
     // SOLICITUD POST a /accounts: Ruta para crear una cuenta en ARS o USD
     Route::post('/accounts', [AccountController::class, 'createAccount']);
+
+     // SOLICITUD GET a /accounts/{user_id}: Ruta para obtener las cuentas de un usuario por id
+     Route::get('/accounts/id/{user_id}', [AccountController::class, 'account']);
+
+      // SOLICITUD GET a /accounts: Ruta para obtener todas las cuentas
+    Route::get('/accounts/index', [AccountController::class, 'index']);
     
     // SOLICITUD POST a /transactions/deposit: Ruta que maneja el depósito en una cuenta propia.
     Route::post('/transactions/deposit', [TransactionController::class, 'deposit']);
@@ -65,15 +71,15 @@ Route::middleware(['api', 'auth:api'])->group(function () {
     // Solicitud GET a /auth/me: Ruta para obtener el detalle de un usuario.
     Route::get('/auth/me', [UserController::class, 'userDetails']);
   
-    //SOLICITUD GET A /transaction para traer el detalle de una transaccion 
-    Route::get('/transactionDescription/{transaction_id}', [TransactionController::class, 'transactionDescription']);
+    //SOLICITUD GET A /transactions/{id}: Ruta para traer el detalle de una transaccion 
+    Route::get('/transactions/{id}', [TransactionController::class, 'transactionDescription']);
   
     // SOLICITUD POST a /fixed_terms para crear un nuevo plazo fijo
-    Route::post('fixed_terms', [FixedTermController::class, 'create']);
+    Route::post('/fixed_terms', [FixedTermController::class, 'create']);
 
     // SOLICITUD POST a /fixed_terms para crear un nuevo plazo fijo
     Route::post('fixed_terms/simulate', [FixedTermController::class, 'simulate']);
 
-    // SOLICITUD GET a /auth/me: Ruta para actualizar un usuario
+    // SOLICITUD PATCH a /auth/me: Ruta para actualizar un usuario
     Route::patch('/auth/me', [UserController::class, 'updateUserProfile']);
 });
