@@ -79,4 +79,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
   
     // SOLICITUD POST a /fixed_terms para crear un nuevo plazo fijo
     Route::post('fixed_terms', [FixedTermController::class, 'create']);
+
+    // SOLICITUD GET a /auth/me: Ruta para actualizar un usuario
+    Route::patch('/auth/me', [UserController::class, 'updateUserProfile']);
 });
