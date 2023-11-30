@@ -45,7 +45,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
     Route::post('/accounts', [AccountController::class, 'createAccount']);
 
      // SOLICITUD GET a /accounts/{user_id}: Ruta para obtener las cuentas de un usuario por id
-     Route::get('/accounts/{user_id}', [AccountController::class, 'account']);
+     Route::get('/accounts/id/{user_id}', [AccountController::class, 'account']);
 
       // SOLICITUD GET a /accounts: Ruta para obtener todas las cuentas
     Route::get('/accounts/index', [AccountController::class, 'index']);
